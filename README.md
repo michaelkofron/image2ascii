@@ -4,4 +4,4 @@ Convert images to custom ASCII art with code or from the command-line
 
 Installation
 ----------
-```gem install image2ascii
+``gem install image2ascii
