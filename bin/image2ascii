@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'image2ascii'
+
+options = {}
+OptionParser.new do |parser|
+  parser.banner = "Usage: ascii2image [image] [options]"
+
+  parser.on("-w", "--width N", Integer, "Width (in characters) [default: terminal size]") do |w|
+    options[:width] = w
+  end
+
+  parser.on("-c COLOR", "--color COLOR", "Color in hex, rgb, or by name [example: 'red']") do |c|
+    if c.include? ","
+        options[:color] = c.split(",").map{|x| x.to_i}
+    elsif c.include? "#"
+       options[:color] = c
+    else
+        options[:color] = c.to_sym
+    end
+  end
+
+  parser.on("-x CHARS", "--custom CHARS", "Custom characters in order of descending relative brightness [example: '@#-.']") do |x|
+    options[:chars] = x
+  end
+
+  parser.on("-i", '--invert', "Invert ASCII character order") do |i|
+    options[:invert] = true
+  end
+
+  parser.on("-b", "--block", "Print ASCII in block form") do |b|
+    options[:block] = true
+  end
+
+  parser.on("-g", "--greyscale", "Print ASCII in greyscale") do |b|
+    options[:color] = "greyscale"
+  end
+
+  parser.on("-h", "--help", "Prints this help") do
+    puts parser
+    exit
+  end
+
+end.parse!
+
+ascii = Image2ASCII.new(ARGV.pop)
+ascii.chars = options[:chars] if options[:chars]
+ascii.chars = ascii.chars.reverse if options[:invert]
+ascii.generate({
+    :width => options[:width],
+    :color => options[:color],
+    :block => options[:block]
+})
