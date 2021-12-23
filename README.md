@@ -82,3 +82,6 @@ Examples
 ----------
 
 <img src="images/mona-lisa.png" width="400">
+<img src="images/sphere.png" width="400">
+<img src="images/fish.png" width="400">
+<img src="images/triangle.png" width="400">
