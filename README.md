@@ -44,15 +44,15 @@ Use with code
   #### - Hide from terminal -
   The "generate" command returns a string, to capture this string without outputting to the terminal we can stop it from printing
   
-        image_as_ascii = ascii.generate(hidden: true)
-        puts image_as_ascii
+        ascii_string = ascii.generate(hidden: true)
+        puts ascii_string
         
   #### - Change character map -
   The character map can be changed. It is crucial that they are ordered ascending or descending in apparent brightness
   
         ascii = Image2ASCII.new("/path/to/img.jpg")
         
-        ascii.chars = "@#-."   #@ appears brighter than #,  # is brighter than -, etc
+        ascii.chars = ".-#@"   # "." is less than "-" is less than "#" is less than "@"
         ascii.generate
         
         #default = ".'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
@@ -64,4 +64,14 @@ Use with code
 
 Use from command-line
 ----------
+
+      Usage: ascii2image [image] [options]
+        -w, --width N                    Width (in characters)
+        -t, --terminal-percent N         Width as percent of terminal size
+        -c, --color COLOR                Color in hex, rgb, or by name [examples: 'red', '255, 255, 255', '#FFFFFF']
+        -x, --custom CHARS               Custom characters in order of descending relative brightness [example: '@#-.']
+        -i, --invert                     Invert ASCII character order
+        -b, --block                      Print ASCII in block form
+        -g, --greyscale                  Print ASCII in greyscale
+        -h, --help                       Prints this help
 
