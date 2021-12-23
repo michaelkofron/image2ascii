@@ -81,4 +81,4 @@ Use from command-line
 Examples
 ----------
 
-
+<img src="images/monalisa.png" width="400">
