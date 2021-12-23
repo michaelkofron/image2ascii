@@ -85,7 +85,7 @@ Examples
 
 <img src="images/mona-lisa.png" width="400">
 
-#### Greyscale
+#### Greyscale + Custom characters (123)
 
 <img src="images/sphere.png" width="400">
 
