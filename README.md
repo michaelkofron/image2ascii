@@ -80,8 +80,11 @@ Use from command-line
 
 Examples
 ----------
-
+##### Full Color
 <img src="images/mona-lisa.png" width="400">
+##### Greyscale
 <img src="images/sphere.png" width="400">
+##### #FFFFFF
 <img src="images/fish.png" width="400">
+##### Full Color Block
 <img src="images/triangle.png" width="400">
