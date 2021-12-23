@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
     s.name        = 'image2ascii'
-    s.version     = '1.0.0'
+    s.version     = '1.1.0'
     s.summary     = "Convert images to custom ASCII art with code or from the command-line"
     s.executables << 'image2ascii'
     s.description = 

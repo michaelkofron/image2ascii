@@ -6,11 +6,15 @@ options = {}
 OptionParser.new do |parser|
   parser.banner = "Usage: ascii2image [image] [options]"
 
-  parser.on("-w", "--width N", Integer, "Width (in characters) [default: terminal size]") do |w|
+  parser.on("-w", "--width N", Integer, "Width (in characters)") do |w|
     options[:width] = w
   end
 
-  parser.on("-c COLOR", "--color COLOR", "Color in hex, rgb, or by name [example: 'red']") do |c|
+  parser.on("-t", "--terminal-percent N", Integer, "Width as percent of terminal size") do |t|
+    options[:term_width] = t
+  end
+
+  parser.on("-c COLOR", "--color COLOR", "Color in hex, rgb, or by name [examples: 'red', '255, 255, 255', '#FFFFFF']") do |c|
     if c.include? ","
         options[:color] = c.split(",").map{|x| x.to_i}
     elsif c.include? "#"
@@ -44,6 +48,7 @@ OptionParser.new do |parser|
 end.parse!
 
 ascii = Image2ASCII.new(ARGV.pop)
+options[:width] = (ascii.winsize * (options[:term_width].to_f / 100)).to_i if options[:term_width]
 ascii.chars = options[:chars] if options[:chars]
 ascii.chars = ascii.chars.reverse if options[:invert]
 ascii.generate({

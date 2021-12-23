@@ -80,3 +80,4 @@ class Image2ASCII
         return as_string
     end 
 end
+
