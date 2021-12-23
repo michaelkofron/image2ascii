@@ -1,5 +1,5 @@
 # image2ascii
-<img src="images/emoji.png" width="200">
+<img src="images/sphere.png" width="400">
 Convert images to custom ASCII art with code or from the command-line
 
 Installation
