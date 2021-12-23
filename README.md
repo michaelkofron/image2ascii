@@ -17,6 +17,9 @@ Use with code
       ascii = Image2ASCII.new("/path/to/img.jpg")
       ascii.generate
       
+      ascii = Image2ASCII.new("http://www.realclearlife.com/wp-content/uploads/2018/03/MonaLisa.jpg")
+      ascii.generate
+      
   #### - Change width -
   
         ascii = Image2ASCII.new("/path/to/img.jpg")
@@ -74,4 +77,8 @@ Use from command-line
         -b, --block                      Print ASCII in block form
         -g, --greyscale                  Print ASCII in greyscale
         -h, --help                       Prints this help
+
+Examples
+----------
+
 
