@@ -106,4 +106,4 @@ Examples
 
 #### Morpheus 
 
-<img src="images/morpheus.png" width="400">
+<img src="images/morpheus.png" width="800">
