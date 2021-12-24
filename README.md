@@ -60,7 +60,7 @@ Use with code
   
         ascii = Image2ASCII.new("/path/to/img.jpg")
         
-        ascii.chars = ".-#@"   # "." is less than "-" is less than "#" is less than "@"
+        ascii.chars = ".-#@"   # "." is less bright than "-" is less bright than "#" is less bright than "@"
         ascii.generate
         
         #default = ".'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
