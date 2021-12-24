@@ -2,6 +2,11 @@
 <img src="images/sphere.png" width="400">
 Convert images to custom ASCII art with code or from the command-line
 
+Prerequisites
+----------
+
+Requires ImageMagick which can be downloaded [here](https://imagemagick.org/script/download.php)
+
 Installation
 ----------
 
