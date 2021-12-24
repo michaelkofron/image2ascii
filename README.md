@@ -12,6 +12,21 @@ Installation
 
 `$ gem install image2ascii`
 
+
+Use from command-line
+----------
+
+      Usage: ascii2image [image path or URL] [options]
+        -w, --width N                    Width (in characters)
+        -t, --terminal-percent N         Width as percent of terminal size
+        -c, --color COLOR                Color in hex, rgb, or by name [examples: 'red', '255, 255, 255', '#FFFFFF']
+        -x, --custom CHARS               Custom characters in order of descending relative brightness [example: '@#-.']
+        -i, --invert                     Invert ASCII character order
+        -b, --block                      Print ASCII in block form
+        -g, --greyscale                  Print ASCII in greyscale
+        -h, --help                       Prints this help
+
+
 Use with code
 ----------
 
@@ -69,19 +84,6 @@ Use with code
    
         ascii.chars = ascii.chars.reverse
         ascii.generate
-
-Use from command-line
-----------
-
-      Usage: ascii2image [image path or URL] [options]
-        -w, --width N                    Width (in characters)
-        -t, --terminal-percent N         Width as percent of terminal size
-        -c, --color COLOR                Color in hex, rgb, or by name [examples: 'red', '255, 255, 255', '#FFFFFF']
-        -x, --custom CHARS               Custom characters in order of descending relative brightness [example: '@#-.']
-        -i, --invert                     Invert ASCII character order
-        -b, --block                      Print ASCII in block form
-        -g, --greyscale                  Print ASCII in greyscale
-        -h, --help                       Prints this help
 
 Examples
 ----------
