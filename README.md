@@ -17,7 +17,7 @@ Use with code
 
   #### - With defaults -
 
-      require "image2ASCII"
+      require "image2ascii"
       
       ascii = Image2ASCII.new("/path/to/img.jpg")
       ascii.generate
