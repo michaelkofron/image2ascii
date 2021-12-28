@@ -16,7 +16,7 @@ Installation
 Use from command-line
 ----------
 
-      Usage: ascii2image [image path or URL] [options]
+      Usage: image2ascii [image path or URL] [options]
         -w, --width N                    Width (in characters)
         -t, --terminal-percent N         Width as percent of terminal size
         -c, --color COLOR                Color in hex, rgb, or by name [examples: 'red', '255, 255, 255', '#FFFFFF']
