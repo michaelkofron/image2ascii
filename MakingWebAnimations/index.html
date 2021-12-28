@@ -1,0 +1,60 @@
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF to ASCII Animation</title>
+<style>
+    p#text {font-size: 12px;}
+    @media screen and (max-width: 750px){
+        p#text {font-size: 8px;}
+    }
+</style>
+</head>
+<body style="padding-top: 25px;">
+<p style="font-size:22px">Made with the help of <a href="https://github.com/michaelkofron/image2ascii" target="_blank">Image2ASCII</a></p>
+<p style="font-family: 'Courier';white-space:nowrap;" id="text"></p>
+<p style="font-size: 22px"><a href="" target="_blank">Learn how to make your own!</a></p>
+</body>
+
+<footer>
+
+<script>
+
+array = []
+
+fetch("steps.json")
+    .then(response => {
+    if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+    }
+    return response.json();
+    })
+    .then(json => {
+
+    for (const object in json){
+        array.push(json[object])
+    }
+
+        loop(array)
+
+    })
+    .catch(function () {
+        this.dataError = true;
+    })
+
+
+//basic infinite loop
+
+function loop(arr){
+    let count = 0
+    let text = document.getElementById("text")
+    setInterval(() => {
+        text.innerHTML = arr[count]
+        if (count == arr.length - 1){
+            count = 0
+        } else {
+            count++
+        }
+    }, 50)
+}
+</script>
+</footer>
