@@ -1,4 +1,7 @@
 # image2ascii
+
+[NEW! Make ASCII Web Animations](https://michaelkofron.github.io/image2ascii/MakingWebAnimations/)
+
 <img src="images/sphere.png" width="400">
 Convert images to custom ASCII art with code or from the command-line. Print images to the console in a fun way, and take advantage of io/console terminal width to make the art based on window size!
 
