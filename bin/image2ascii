@@ -4,7 +4,7 @@ require 'image2ascii'
 
 options = {}
 OptionParser.new do |parser|
-  parser.banner = "Usage: ascii2image [image] [options]"
+  parser.banner = "Usage: image2ascii [image] [options]"
 
   parser.on("-w", "--width N", Integer, "Width (in characters)") do |w|
     options[:width] = w
