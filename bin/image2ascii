@@ -40,6 +40,10 @@ OptionParser.new do |parser|
     options[:color] = "greyscale"
   end
 
+  parser.on("-f", "--format FORMAT", "Format (string or html)") do |format|
+    options[:format] = format.to_sym
+  end
+
   parser.on("-h", "--help", "Prints this help") do
     puts parser
     exit
@@ -51,8 +55,10 @@ ascii = Image2ASCII.new(ARGV.pop)
 options[:width] = (ascii.winsize * (options[:term_width].to_f / 100)).to_i if options[:term_width]
 ascii.chars = options[:chars] if options[:chars]
 ascii.chars = ascii.chars.reverse if options[:invert]
+
 ascii.generate({
     :width => options[:width],
     :color => options[:color],
-    :block => options[:block]
+    :block => options[:block],
+    :format => options[:format]
 })
