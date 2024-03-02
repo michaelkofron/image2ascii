@@ -15,8 +15,8 @@ class Image2ASCII
         @winsize = IO.console.winsize[1]
         @chars = %($@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,"^`'.).reverse
         #quantum conversion factor for dealing with quantum depth color values
-        @qcf = 1 
-        
+        @qcf = 1
+
         if Magick::MAGICKCORE_QUANTUM_DEPTH > 16
             raise "ImageMagick quantum depth is set to #{Magick::MAGICKCORE_QUANTUM_DEPTH}. It needs to be 16 or less"
         elsif Magick::MAGICKCORE_QUANTUM_DEPTH == 16
@@ -26,12 +26,21 @@ class Image2ASCII
     end
 
     def generate(args={})
+        if args[:format] == :html
+            generate_html(args)
+        else
+            generate_string(args)
+        end
+    end
 
+    private
+
+    def generate_string(args={})
         args[:width]   ||= @winsize
         args[:color]   ||= "full"
         args[:hidden]  ||= false
         args[:block]   ||= false
-        as_string = ""
+        ascii_string = ""
 
         #load the image
         resource = URI.open(@uri)
@@ -52,7 +61,7 @@ class Image2ASCII
             #select from chars that are already pre-ordered in brightness
             char_index = brightness / (255.0 / @chars.length)
             char = @chars[char_index.floor]
-            as_string << char
+            ascii_string << char
 
             chosen_color =
             if args[:color] == "full"
@@ -72,12 +81,49 @@ class Image2ASCII
             #add line wrap once desired width is reached
             if (col % (args[:width] - 1) == 0) and (col != 0)
                 print "\n" if !args[:hidden]
-                as_string << "\n"
+                ascii_string << "\n"
             end
-
         end
 
-        return as_string
-    end 
-end
+        return ascii_string
+    end
 
+    def generate_html(args={})
+        args[:width]   ||= @winsize
+        args[:color]   ||= "full"
+        args[:hidden]  ||= false
+        args[:block]   ||= false
+        html = ""
+
+        # Load the image
+        resource = URI.open(@uri)
+        img = Magick::ImageList.new
+        img.from_blob(resource.read)
+
+        # Correct aspect ratio
+        img = img.scale(args[:width] / img.columns.to_f)
+        img = img.scale(img.columns, img.rows / 2)
+
+        img.each_pixel do |pixel, col, row|
+
+            # Get RGB values and brightness of pixels
+            r = pixel.red / @qcf
+            g = pixel.green / @qcf
+            b = pixel.blue / @qcf
+            brightness = (0.2126*r + 0.7152*g + 0.0722*b)
+
+            # Select character based on brightness
+            char_index = brightness / (255.0 / @chars.length)
+            char = @chars[char_index.floor]
+            html << "<span style=\"color: rgb(#{r}, #{g}, #{b});\">#{char}</span>"
+
+            #add line wrap once desired width is reached
+            if (col % (args[:width] - 1) == 0) and (col != 0)
+                html << "<br>"
+            end
+        end
+
+        return html
+    end
+
+end
