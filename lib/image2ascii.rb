@@ -14,13 +14,13 @@ class Image2ASCII
         @uri = uri
         @winsize = IO.console.winsize[1]
         @chars = %($@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,"^`'.).reverse
-        #quantum conversion factor for dealing with quantum depth color values
-        @qcf = 1 
-        
+        # quantum conversion factor for dealing with quantum depth color values
+        @qcf = 1
+
         if Magick::MAGICKCORE_QUANTUM_DEPTH > 16
             raise "ImageMagick quantum depth is set to #{Magick::MAGICKCORE_QUANTUM_DEPTH}. It needs to be 16 or less"
         elsif Magick::MAGICKCORE_QUANTUM_DEPTH == 16
-            #divides quantum depth color space into useable rgb values
+            # divides quantum depth color space into usable rgb values
             @qcf = 257
         end
     end
@@ -31,37 +31,32 @@ class Image2ASCII
         args[:color]   ||= "full"
         args[:hidden]  ||= false
         args[:block]   ||= false
-        as_string = ""
 
-        #load the image
+        if args[:format] == :html
+            generate_html(args)
+        else
+            generate_string(args)
+        end
+    end
+
+    private
+
+    def generate_string(args={})
+        ascii_string = ""
+
         resource = URI.open(@uri)
         img = Magick::ImageList.new
         img.from_blob(resource.read)
 
-        #correct aspect ratio
-        img = img.scale(args[:width] / img.columns.to_f)
-        img = img.scale(img.columns, img.rows / 2)
+        img = correct_aspect_ratio(img, args[:width])
 
         img.each_pixel do |pixel, col, row|
+            r, g, b, brightness = get_pixel_values(pixel)
 
-            #get RGB values and brightness of pixels
-            r = pixel.red / @qcf
-            g = pixel.green / @qcf
-            b = pixel.blue / @qcf
-            brightness = (0.2126*r + 0.7152*g + 0.0722*b)
-            #select from chars that are already pre-ordered in brightness
-            char_index = brightness / (255.0 / @chars.length)
-            char = @chars[char_index.floor]
-            as_string << char
+            char = select_character(brightness)
+            ascii_string << char
 
-            chosen_color =
-            if args[:color] == "full"
-                [r, g, b]
-            elsif args[:color] == "greyscale"
-                [brightness, brightness, brightness]
-            else
-                args[:color]
-            end
+            chosen_color = get_chosen_color(args[:color], r, g, b)
 
             if args[:block]
                 print Rainbow(" ").background(*chosen_color) if !args[:hidden]
@@ -74,10 +69,62 @@ class Image2ASCII
                 print "\n" if !args[:hidden]
                 as_string << "\n"
             end
-
         end
 
-        return as_string
-    end 
-end
+        return ascii_string
+    end
 
+    def generate_html(args={})
+        html = ""
+
+        resource = URI.open(@uri)
+        img = Magick::ImageList.new
+        img.from_blob(resource.read)
+
+        img = correct_aspect_ratio(img, args[:width])
+
+        img.each_pixel do |pixel, col, row|
+            r, g, b, brightness = get_pixel_values(pixel)
+
+            char = select_character(brightness)
+            chosen_color = "rgb(#{r}, #{g}, #{b})"
+
+            html << "<span style=\"color: #{chosen_color};\">#{char}</span>"
+
+            if (col % (args[:width] - 1) == 0) and (col != 0)
+                html << "<br>"
+            end
+        end
+
+        return html
+    end
+
+    def correct_aspect_ratio(img, width)
+        img = img.scale(width / img.columns.to_f)
+        img = img.scale(img.columns, img.rows / 2)
+    end
+
+    def get_pixel_values(pixel)
+        r = pixel.red / @qcf
+        g = pixel.green / @qcf
+        b = pixel.blue / @qcf
+        brightness = (0.2126 * r + 0.7152 * g + 0.0722 * b)
+
+        return r, g, b, brightness
+    end
+
+    def select_character(brightness)
+        char_index = brightness / (255.0 / @chars.length)
+        @chars[char_index.floor]
+    end
+
+    def get_chosen_color(color, r, g, b)
+        if color == "full"
+            [r, g, b]
+        elsif color == "greyscale"
+            [r, r, r]
+        else
+            color
+        end
+    end
+end
