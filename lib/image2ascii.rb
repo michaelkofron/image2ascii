@@ -67,7 +67,7 @@ class Image2ASCII
             #add line wrap once desired width is reached
             if (col % (args[:width] - 1) == 0) and (col != 0)
                 print "\n" if !args[:hidden]
-                as_string << "\n"
+                ascii_string << "\n"
             end
         end
 
